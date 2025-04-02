@@ -1,5 +1,5 @@
 ---
-title: GSOC 2025 Project: Produce Routing Engine for `spopt`
+title: GSOC 2025 Project: Produce Routing Engine for spopt
 ---
 
 # 04/02/2025
