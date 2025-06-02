@@ -1,5 +1,5 @@
 ---
-title: Getting Started with GSoC 2025: Building a Routing Engine for PySAL
+title: Getting Started with GSoC 2025 - Building a Routing Engine for PySAL
 date: 2025-06-02
 ---
 
