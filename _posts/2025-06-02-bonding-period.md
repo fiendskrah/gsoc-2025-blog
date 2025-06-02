@@ -33,11 +33,7 @@ This might seem clunky since I can’t directly edit and run code in one place. 
 That said, “tunnel coding” isn’t perfect. I often need to tweak my `PATH` settings to get tools recognized. I’m not formally trained in computer science, everything I know is DIY. Growing up around computers in the '90s helped develop solid intuition, but system config (like PATH stuff) is still a weak spot. Years of filesharing and keygen hacking have given me something greater than knowledge: 
 
 <div style="text-align: center;">
-<<<<<<< HEAD
   <img src="/assets/wizard.png" alt="perseverance" style="width: 50%;" />
-=======
-  <img src="wizard.png" alt="perseverance" style="width: 50%;" />
->>>>>>> 6acac196ac9d12a53486898686be43c0b7433071
   <div style="font-style: italic; font-size: 0.9em;">perseverance</div>
 </div>
 
