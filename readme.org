@@ -18,10 +18,10 @@ here on purpose:
   was written. Kept as its own independent git repo (linked, not
   vendored in here); see [[https://github.com/fiendskrah/spopt][fiendskrah/spopt]].
 - =gsoc-2025-blog/= — a weekly-ish blog narrating the work as it
-  happened; more detail and more voice than this file. Tracked here
-  directly and published via GitHub Pages (see below); it used to be
-  its own repo, [[https://github.com/fiendskrah/gsoc-2025-blog][fiendskrah/gsoc-2025-blog]], which now just redirects
-  here.
+  happened; more detail and more voice than this file. This whole
+  project is tracked in the blog's original repo,
+  [[https://github.com/fiendskrah/gsoc-2025-blog][fiendskrah/gsoc-2025-blog]] (histories merged so the blog's original
+  commits are preserved), which keeps the Pages URL unchanged.
 - =data/= — supporting data (e.g. an OSM extract) used to stand up a
   local routing backend for testing.
 - =osrm_srv.sh= — a helper script for running a local OSRM instance.
@@ -105,10 +105,10 @@ Summarized from the fork's git history (=spopt/=):
 The full week-by-week account — including the reasoning behind
 dropping direct OSRM binding in favor of =routingpy=, and some
 closing reflections on the summer — lives in [[file:gsoc-2025-blog/][gsoc-2025-blog/]], published
-via GitHub Pages at https://fiendskrah.github.io/gsoc2025/ (deployed
-by =.github/workflows/pages.yml=, which builds the =gsoc-2025-blog/=
-subfolder with Jekyll). The blog's old standalone URL,
-https://fiendskrah.github.io/gsoc-2025-blog/, now redirects here.
+via GitHub Pages at https://fiendskrah.github.io/gsoc-2025-blog/
+(deployed by =.github/workflows/pages.yml=, which builds the
+=gsoc-2025-blog/= subfolder with Jekyll — requires the repo's Pages
+source to be set to "GitHub Actions" rather than a branch).
 
 * Acknowledgments
 
