@@ -1,0 +1,9 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints/
+
+# nested independent git repos, tracked separately
+data/
+spopt/
+gsoc-2025-blog/
