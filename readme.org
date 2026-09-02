@@ -1,0 +1,116 @@
+#+TITLE: GSoC 2025 — A Routing Engine for spopt
+#+AUTHOR: Dylan Skrah
+
+* Overview
+
+This directory holds everything related to my Google Summer of Code
+(GSoC) 2025 project: designing and building a vehicle routing engine
+for [[https://pysal.org/spopt/][spopt]], the spatial optimization package in [[https://pysal.org/][PySAL]] (Python
+Spatial Analysis Library). GSoC pairs contributors with an open-source
+organization for a summer of mentored work; my organization was
+NumFOCUS, via the PySAL project, mentored by Levi John Wolf and
+Germano Barcelos.
+
+This is the only GSoC project I've done. The pieces live together
+here on purpose:
+
+- =spopt/= — my fork of the spopt repository, where the actual code
+  was written. Kept as its own independent git repo (linked, not
+  vendored in here); see [[https://github.com/fiendskrah/spopt][fiendskrah/spopt]].
+- =gsoc-2025-blog/= — a weekly-ish blog narrating the work as it
+  happened; more detail and more voice than this file. Tracked here
+  directly and published via GitHub Pages (see below); it used to be
+  its own repo, [[https://github.com/fiendskrah/gsoc-2025-blog][fiendskrah/gsoc-2025-blog]], which now just redirects
+  here.
+- =data/= — supporting data (e.g. an OSM extract) used to stand up a
+  local routing backend for testing.
+- =osrm_srv.sh= — a helper script for running a local OSRM instance.
+
+* Goal / Purpose
+
+=spopt= already had solvers for optimization problems like vehicle
+routing (VRP), but no generalized way to feed those solvers real
+road-network distances. A prototype existed (from a mentor's personal
+scripts) that depended on a single, specific routing backend (OSRM)
+running as a local service — powerful, but not something an ordinary
+=spopt= user could easily install or swap out.
+
+The project's goal was to generalize that prototype into a proper
+=spopt.route= module: an API where a user can hand the solver their
+own stops, depots, and constraints, and get real routed
+distances/durations back, without being locked into one particular
+routing backend or forced to stand up infrastructure just to try it
+out.
+
+* Major Steps Taken
+
+1. *Proposal.* Scoped the project around generalizing the existing
+   OSRM-based prototype, with the open question of whether to keep
+   OSRM (via a C++ binding) or replace it with something
+   Python-native.
+2. *Onboarding.* Set up a development environment, imported the
+   mentor's draft pull request, and got it running well enough to
+   reproduce a worked example: a toy problem delivering Guinness from
+   a depot to pubs around Dublin.
+3. *Reproduced the prototype end-to-end*, fixing the rough edges
+   along the way — indexing bugs, a JSON-serialization failure in the
+   map output caused by datetime columns, and OSRM rate-limiting
+   (solved by running OSRM in a local Docker container instead of
+   hitting a public endpoint).
+4. *Chose a generalization strategy*: wrap the engine around
+   [[https://github.com/mthh/routingpy][routingpy]], a Python client that talks to many different routing
+   backends (OSRM, Valhalla, and various commercial APIs) through one
+   uniform interface, rather than binding directly to OSRM's C++ code.
+   This became the core of =spopt/route/engine.py=.
+5. *Made the routing backend user-configurable*, so a user passes in
+   which router/service to use (defaulting to OSRM) instead of it
+   being hardcoded.
+6. *Added a Haversine (straight-line-distance) fallback* for when no
+   routing backend is configured at all, so the module still works
+   with zero setup — just less realistic.
+7. *Surveyed alternative routing services* supported through
+   =routingpy= (Valhalla, HERE, Google, GraphHopper, etc.) and
+   documented which were confirmed working.
+8. *Wrote an instructional notebook* (=notebooks/route.ipynb=) walking
+   through setup and use of the new module.
+9. *Opened and merged the pull request* delivering the module.
+10. *Added tests* for the new =LastMile= VRP class and got CI passing
+    against a newer =pyvrp= release and Python 3.14, as a follow-up
+    pull request (still open as of this writing).
+
+* Contributions to spopt
+
+Summarized from the fork's git history (=spopt/=):
+
+- New module *=spopt/route/=* (=engine.py=, =heuristic.py=,
+  =utils.py=) implementing the generalized routing engine and the
+  =LastMile= vehicle-routing-problem class built on top of =pyvrp=.
+- New test suite *=spopt/tests/test_route/=* (=test_lastmile.py=)
+  covering the new module.
+- New instructional notebook *=notebooks/route.ipynb=*.
+- ~40 commits over the course of the project, spanning proposal
+  drafting (April 2025) through debugging, the =routingpy=
+  rewrite, backend testing, and CI fixes (into early 2026).
+- Delivered as [[https://github.com/ljwolf/spopt/pull/6][spopt.route v1.0]] (PR #6 to the mentor's fork), merged
+  2025-09-11.
+- A follow-up, [[https://github.com/ljwolf/spopt/pull/7][PR #7]] ("add test file for haversine routing engine"),
+  adds the =LastMile= test suite and CI compatibility fixes on top of
+  that. *Still open* as of this writing — worth merging (or otherwise
+  resolving) before considering the module done.
+- Both are upstream of the still-open tracking PR to land the module
+  in [[https://github.com/pysal/spopt/pull/465][pysal/spopt proper]] (#465).
+
+* Further Reading
+
+The full week-by-week account — including the reasoning behind
+dropping direct OSRM binding in favor of =routingpy=, and some
+closing reflections on the summer — lives in [[file:gsoc-2025-blog/][gsoc-2025-blog/]], published
+via GitHub Pages at https://fiendskrah.github.io/gsoc2025/ (deployed
+by =.github/workflows/pages.yml=, which builds the =gsoc-2025-blog/=
+subfolder with Jekyll). The blog's old standalone URL,
+https://fiendskrah.github.io/gsoc-2025-blog/, now redirects here.
+
+* Acknowledgments
+
+Mentored by Levi John Wolf (University of Bristol) and Germano
+Barcelos (Universidade Federal de Viçosa), under NumFOCUS / PySAL.
