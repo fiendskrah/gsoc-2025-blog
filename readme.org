@@ -105,10 +105,11 @@ Summarized from the fork's git history (=spopt/=):
 The full week-by-week account — including the reasoning behind
 dropping direct OSRM binding in favor of =routingpy=, and some
 closing reflections on the summer — lives in [[file:gsoc-2025-blog/][gsoc-2025-blog/]], published
-via GitHub Pages at https://fiendskrah.github.io/gsoc-2025-blog/
-(deployed by =.github/workflows/pages.yml=, which builds the
-=gsoc-2025-blog/= subfolder with Jekyll — requires the repo's Pages
-source to be set to "GitHub Actions" rather than a branch).
+via GitHub Pages at https://fiendskrah.github.io/gsoc-2025-blog/.
+=main= holds the whole project; a =pages= branch carries just the
+=gsoc-2025-blog/= subfolder's contents at its root (kept in sync via
+=git subtree split --prefix=gsoc-2025-blog -b pages=), and that's
+what the repo's Pages source (branch =pages=, root) actually serves.
 
 * Acknowledgments
 
